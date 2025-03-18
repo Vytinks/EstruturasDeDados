@@ -166,3 +166,11 @@ Arvoresa Binarias: Uma árvore binária é uma estrutura de dados fundamental na
 Ela consiste em nós interligados, onde cada nó possui, no máximo, dois filhos: um à esquerda e outro à direita.
 Essa estrutura é amplamente utilizada para representar hierarquias, como a organização de um diretório de arquivos, a estrutura de um site ou até mesmo a classificação de elementos em um jogo.
 ChatGPT
+
+Aplicações em Desenvolvimento de Jogos
+
+Listas Encadeadas: Úteis para gerenciar filas de eventos ou ações, permitindo a inserção e remoção dinâmica de elementos.
+
+Listas Ordenadas: Podem ser utilizadas para manter rankings, pontuações ou outros dados ordenados de forma eficiente.
+
+Árvores Binárias: Facilitam buscas rápidas e organizadas, sendo aplicáveis em sistemas de detecção de colisão ou organização hierárquica de objetos no jogos
