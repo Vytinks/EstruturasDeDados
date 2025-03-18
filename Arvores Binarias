@@ -1,40 +1,202 @@
-Conceitos básicos de Árvores Binárias
-Introdução
-Uma árvore binária é uma estrutura de dados fundamental na ciência da computação. Ela consiste em nós interligados, onde cada nó possui, no máximo, dois filhos: um à esquerda e outro à direita. Essa estrutura é amplamente utilizada para representar hierarquias, como a organização de um diretório de arquivos, a estrutura de um site ou até mesmo a classificação de elementos em um jogo.
-
-Características de uma árvore binária
-A principal característica de uma árvore binária é que cada nó pode ter até dois filhos. O nó no topo da árvore é chamado de raiz, e os nós que não possuem filhos são chamados de folhas. Os nós intermediários são chamados de nós internos.
-
-Ordem dos filhos
-Em uma árvore binária, a ordem dos filhos é importante. O filho à esquerda é considerado o filho menor, enquanto o filho à direita é considerado o filho maior. Essa ordem permite que a árvore seja percorrida de forma eficiente, facilitando a busca por elementos específicos.
-Implementação em Python
-A implementação de uma árvore binária em Python pode ser realizada utilizando classes e objetos. Cada nó da árvore pode ser representado por uma classe, contendo atributos como valor e referências para os filhos esquerdo e direito.
-
 class Node:
     def __init__(self, value):
-        self.value = value
+        self.value = value  # valor do nó
+        self.left = None    # filho esquerdo
+        self.right = None   # filho direito
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None   # raiz da árvore
+
+    def insert(self, value):
+        if self.root is None:
+            self.root = Node(value)
+        else:
+            self._insert_recursive(self.root, value)
+    
+    def _insert_recursive(self, node, value):
+        if value < node.value:
+            if node.left is None:
+                node.left = Node(value)
+            else:
+                self._insert_recursive(node.left, value)
+        else:
+            if node.right is None:
+                node.right = Node(value)
+            else:
+                self._insert_recursive(node.right, value)
+    
+    def search(self, value):
+        return self._search_recursive(self.root, value)
+    
+    def _search_recursive(self, node, value):
+        if node is None or node.value == value:
+            return node
+        elif value < node.value:
+            return self._search_recursive(node.left, value)
+        else:
+            return self._search_recursive(node.right, value)
+    
+    def inorder_traversal(self):
+        result = []
+        self._inorder_recursive(self.root, result)
+        return result
+
+    def _inorder_recursive(self, node, result):
+        if node:
+            self._inorder_recursive(node.left, result)
+            result.append(node.value)
+            self._inorder_recursive(node.right, result)
+
+# Testando a árvore binária
+bt = BinaryTree()
+bt.insert(10)
+bt.insert(5)
+bt.insert(15)
+bt.insert(2)
+bt.insert(7)
+
+print("Busca por 7:", bt.search(7).value if bt.search(7) else "Não encontrado")
+print("Percurso em ordem:", bt.inorder_traversal())
+Explicação:
+Classe Node: Representa cada nó da árvore. Cada nó tem um valor e dois filhos: esquerdo e direito.
+Classe BinaryTree: Representa a árvore binária em si. Ela tem métodos para inserir novos valores e buscar valores. A busca e inserção são feitas de forma recursiva.
+Percurso em ordem: A função inorder_traversal realiza o percurso em ordem, ou seja, ela visita primeiro o subárvore esquerda, depois o nó atual, e depois a subárvore direita.
+Exemplo 2: Árvore Binária de Pesquisa (BST)
+Uma árvore binária de pesquisa tem a propriedade de que, para cada nó, todos os valores à esquerda são menores e todos os valores à direita são maiores.
+
+Aqui está uma versão de uma árvore binária de pesquisa com operações básicas:
+class BSTNode:
+    def __init__(self, key):
         self.left = None
         self.right = None
-    
-Com a classe Node definida, podemos construir a árvore binária conectando os nós através das referências de filho esquerdo e filho direito. Podemos percorrer a árvore e inserir novos nós em posições adequadas de acordo com a ordem dos valores.
+        self.value = key
 
-Manipulação e percurso da árvore em Python
-Uma vez que a árvore binária tenha sido construída, podemos realizar diversas operações de manipulação e percorrer a estrutura. Alguns dos principais algoritmos para percorrer uma árvore binária em Python são:
+class BST:
+    def __init__(self):
+        self.root = None
 
-Percorrer em ordem (in-order): percorre a árvore da esquerda para a direita, visitando primeiro o filho esquerdo, depois o nó atual e por fim o filho direito.
-Percorrer em pré-ordem (pre-order): percorre a árvore visitando primeiro o nó atual, depois o filho esquerdo e por fim o filho direito.
-Percorrer em pós-ordem (post-order): percorre a árvore visitando primeiro o filho esquerdo, depois o filho direito e por fim o nó atual.
-Esses algoritmos de percurso são úteis para realizar diversas tarefas, como busca por um determinado valor, exclusão de um nó específico ou mesmo para imprimir a árvore de forma ordenada.
+    def insert(self, key):
+        if self.root is None:
+            self.root = BSTNode(key)
+        else:
+            self._insert_recursive(self.root, key)
 
-Aplicações e considerações finais
-As árvores binárias são amplamente utilizadas em diversas aplicações, desde a organização de dados em bancos de dados até a construção de algoritmos de busca eficientes. Por exemplo, elas podem ser usadas para criar uma estrutura de busca binária, onde é possível encontrar rapidamente um elemento específico em uma coleção ordenada.
+    def _insert_recursive(self, root, key):
+        if key < root.value:
+            if root.left is None:
+                root.left = BSTNode(key)
+            else:
+                self._insert_recursive(root.left, key)
+        elif key > root.value:
+            if root.right is None:
+                root.right = BSTNode(key)
+            else:
+                self._insert_recursive(root.right, key)
 
-Ao trabalhar com árvores binárias em Python, é importante considerar a eficiência dos algoritmos utilizados. Por exemplo, uma árvore binária balanceada garante que a altura da árvore seja minimizada, o que resulta em operações mais rápidas de busca e inserção.
-Em resumo, as árvores binárias em Python são estruturas de dados poderosas e versáteis. Compreender os conceitos básicos, implementar corretamente e dominar os algoritmos de manipulação e percurso são habilidades essenciais para qualquer desenvolvedor. Portanto, ao aprender a criar e manipular estruturas de dados em Python, a compreensão das árvores binárias é fundamental.
+    def search(self, key):
+        return self._search_recursive(self.root, key)
 
-Lembre-se de praticar e explorar diferentes aplicações das árvores binárias em seus projetos para aprimorar suas habilidades de programação e solução de problemas.
+    def _search_recursive(self, root, key):
+        if root is None or root.value == key:
+            return root
+        if key < root.value:
+            return self._search_recursive(root.left, key)
+        return self._search_recursive(root.right, key)
 
-Conheça a Awari
-A Awari é a melhor plataforma para aprender sobre ciência de dados no Brasil. Aqui você encontra cursos com aulas ao vivo, mentorias individuais com os melhores profissionais do mercado e suporte de carreira personalizado para dar seu próximo passo profissional e aprender habilidades como Data Science, Data Analytics, Machine Learning e mais.
+    def inorder(self):
+        return self._inorder_recursive(self.root)
 
-Já pensou em aprender de maneira individualizada com profissionais que atuam em empresas como Nubank, Amazon e Google? Clique aqui para se inscrever na Awari e começar a construir agora mesmo o próximo capítulo da sua carreira em dados.
+    def _inorder_recursive(self, root):
+        return self._inorder_recursive(root.left) + [root.value] + self._inorder_recursive(root.right) if root else []
+
+# Testando a árvore binária de pesquisa
+bst = BST()
+bst.insert(15)
+bst.insert(10)
+bst.insert(20)
+bst.insert(5)
+bst.insert(12)
+
+print("Percurso em ordem:", bst.inorder())  # [5, 10, 12, 15, 20]
+print("Busca por 10:", bst.search(10).value if bst.search(10) else "Não encontrado")
+Explicação:
+BSTNode: Representa um nó da árvore binária de pesquisa. Contém o valor e os ponteiros para os filhos esquerdo e direito.
+BST: Classe que implementa a árvore binária de pesquisa, com métodos para inserir, buscar e percorrer a árvore em ordem.
+Exemplo 3: Remover um nó (com dois filhos)
+Aqui está uma versão simplificada para remover um nó de uma árvore binária de pesquisa:
+class BSTNode:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.value = key
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, key):
+        if self.root is None:
+            self.root = BSTNode(key)
+        else:
+            self._insert_recursive(self.root, key)
+
+    def _insert_recursive(self, root, key):
+        if key < root.value:
+            if root.left is None:
+                root.left = BSTNode(key)
+            else:
+                self._insert_recursive(root.left, key)
+        elif key > root.value:
+            if root.right is None:
+                root.right = BSTNode(key)
+            else:
+                self._insert_recursive(root.right, key)
+
+    def delete(self, key):
+        self.root = self._delete_recursive(self.root, key)
+
+    def _delete_recursive(self, root, key):
+        if root is None:
+            return root
+        if key < root.value:
+            root.left = self._delete_recursive(root.left, key)
+        elif key > root.value:
+            root.right = self._delete_recursive(root.right, key)
+        else:
+            # Caso 1: nó com apenas um filho ou nenhum
+            if root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+            # Caso 2: nó com dois filhos
+            root.value = self._min_value_node(root.right).value
+            root.right = self._delete_recursive(root.right, root.value)
+        return root
+
+    def _min_value_node(self, root):
+        current = root
+        while current.left:
+            current = current.left
+        return current
+
+    def inorder(self):
+        return self._inorder_recursive(self.root)
+
+    def _inorder_recursive(self, root):
+        return self._inorder_recursive(root.left) + [root.value] + self._inorder_recursive(root.right) if root else []
+
+# Testando a remoção de um nó
+bst = BST()
+bst.insert(20)
+bst.insert(10)
+bst.insert(30)
+bst.insert(5)
+bst.insert(15)
+bst.delete(10)
+
+print("Percurso em ordem após remoção de 10:", bst.inorder())  # [5, 15, 20, 30]
+Explicação:
+Remoção de um nó: Para remover um nó de uma árvore binária de pesquisa, temos três casos:
+Caso 1: O nó tem nenhum ou um filho.
+Caso 2: O nó tem dois filhos, e nesse caso, encontramos o menor valor na subárvore direita para substituir o nó removido.
