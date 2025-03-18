@@ -1,1 +1,106 @@
+1. Lista Ordenada Simples
+Neste exemplo, a lista será mantida sempre ordenada à medida que inserimos os novos valores. Para isso, vamos usar o método de inserção que percorre a lista até encontrar a posição correta para inserir o novo nó.
 
+Exemplo de Lista Ordenada Simples:
+class Node:
+    def __init__(self, value):
+        self.value = value  # valor do nó
+        self.next = None    # ponteiro para o próximo nó
+
+class OrderedLinkedList:
+    def __init__(self):
+        self.head = None  # cabeça da lista (inicialmente vazia)
+
+    def insert(self, value):
+        new_node = Node(value)
+        # Caso a lista esteja vazia ou o valor do novo nó seja menor que o da cabeça
+        if not self.head or self.head.value >= new_node.value:
+            new_node.next = self.head
+            self.head = new_node
+            return
+        
+        current = self.head
+        # Percorre a lista até encontrar o ponto onde o novo nó deve ser inserido
+        while current.next and current.next.value < new_node.value:
+            current = current.next
+        
+        new_node.next = current.next
+        current.next = new_node
+
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.value, end=" -> ")
+            current = current.next
+        print("None")
+
+# Testando a lista ordenada
+oll = OrderedLinkedList()
+oll.insert(30)
+oll.insert(10)
+oll.insert(50)
+oll.insert(20)
+oll.insert(40)
+
+oll.print_list()  # Saída: 10 -> 20 -> 30 -> 40 -> 50 -> None
+Explicação:
+Classe Node: Representa cada nó da lista encadeada com um valor e um ponteiro para o próximo nó.
+Classe OrderedLinkedList: Representa a lista encadeada ordenada. O método insert percorre a lista para garantir que o novo nó seja inserido na posição correta, mantendo a ordem crescente.
+2. Lista Ordenada Dupla
+Agora, vamos trabalhar com uma lista encadeada dupla ordenada, onde, além de manter a lista ordenada, cada nó tem ponteiros tanto para o próximo nó quanto para o anterior.
+
+Exemplo de Lista Ordenada Dupla:
+class DoubleNode:
+    def __init__(self, value):
+        self.value = value  # valor do nó
+        self.next = None    # ponteiro para o próximo nó
+        self.prev = None    # ponteiro para o nó anterior
+
+class DoublyOrderedLinkedList:
+    def __init__(self):
+        self.head = None  # cabeça da lista (inicialmente vazia)
+
+    def insert(self, value):
+        new_node = DoubleNode(value)
+        # Caso a lista esteja vazia ou o valor do novo nó seja menor que o da cabeça
+        if not self.head or self.head.value >= new_node.value:
+            new_node.next = self.head
+            if self.head:
+                self.head.prev = new_node
+            self.head = new_node
+            return
+        
+        current = self.head
+        # Percorre a lista até encontrar o ponto onde o novo nó deve ser inserido
+        while current.next and current.next.value < new_node.value:
+            current = current.next
+        
+        new_node.next = current.next
+        if current.next:
+            current.next.prev = new_node
+        current.next = new_node
+        new_node.prev = current
+
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.value, end=" <-> ")
+            current = current.next
+        print("None")
+
+# Testando a lista ordenada dupla
+doll = DoublyOrderedLinkedList()
+doll.insert(30)
+doll.insert(10)
+doll.insert(50)
+doll.insert(20)
+doll.insert(40)
+
+doll.print_list()  # Saída: 10 <-> 20 <-> 30 <-> 40 <-> 50 <-> None
+Explicação:
+Classe DoubleNode: Representa um nó de lista encadeada dupla, com ponteiros tanto para o próximo nó (next) quanto para o nó anterior (prev).
+Classe DoublyOrderedLinkedList: Representa a lista encadeada dupla ordenada. O método insert garante que os elementos sejam inseridos na posição correta, mantendo a lista ordenada.
+Considerações:
+Ordenação: A principal característica de uma lista ordenada é que os valores são inseridos de forma que a ordem seja sempre mantida. Isso pode ser feito de forma eficiente com uma busca linear durante a inserção, o que garante que a lista seja mantida ordenada.
+Vantagem de Listas Ordenadas: Quando você precisa de acesso rápido aos menores ou maiores valores, uma lista ordenada é vantajosa. Porém, a inserção e remoção podem ser mais lentas, pois requerem percorrer a lista para encontrar a posição correta.
+Listas Duplas: As listas encadeadas duplas oferecem a vantagem de poder percorrer a lista em ambas as direções (da cabeça para o final e do final para a cabeça), o que pode ser útil em alguns casos.
