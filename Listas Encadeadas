@@ -1,1 +1,152 @@
+1. Lista Encadeada Simples
+Uma lista encadeada simples é a forma mais básica, onde cada nó contém um valor e um ponteiro para o próximo nó.
+class Node:
+    def __init__(self, value):
+        self.value = value  # valor do nó
+        self.next = None    # ponteiro para o próximo nó
 
+class LinkedList:
+    def __init__(self):
+        self.head = None  # cabeça da lista (inicialmente vazia)
+
+    def append(self, value):
+        new_node = Node(value)
+        if not self.head:
+            self.head = new_node  # Se a lista estiver vazia, o novo nó será a cabeça
+            return
+        last = self.head
+        while last.next:
+            last = last.next  # Encontra o último nó
+        last.next = new_node  # Adiciona o novo nó ao final da lista
+
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.value, end=" -> ")
+            current = current.next
+        print("None")  # Indica o fim da lista
+
+    def search(self, value):
+        current = self.head
+        while current:
+            if current.value == value:
+                return True
+            current = current.next
+        return False
+
+# Testando a lista encadeada simples
+ll = LinkedList()
+ll.append(10)
+ll.append(20)
+ll.append(30)
+ll.append(40)
+
+ll.print_list()  # Saída: 10 -> 20 -> 30 -> 40 -> None
+print("Busca por 20:", ll.search(20))  # Saída: True
+print("Busca por 50:", ll.search(50))  # Saída: False
+Explicação:
+Classe Node: Representa um nó da lista, com um valor e um ponteiro para o próximo nó (next).
+Classe LinkedList: Representa a lista encadeada e oferece métodos para adicionar elementos (append), imprimir a lista (print_list) e buscar um valor (search).
+
+2. Lista Encadeada Dupla
+Uma lista encadeada dupla é uma versão em que cada nó contém um ponteiro para o próximo nó e um ponteiro para o nó anterior. Isso permite navegação em ambas as direções (para frente e para trás).
+
+Exemplo de Lista Encadeada Dupla:
+class DoubleNode:
+    def __init__(self, value):
+        self.value = value  # valor do nó
+        self.next = None    # ponteiro para o próximo nó
+        self.prev = None    # ponteiro para o nó anterior
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None  # cabeça da lista
+
+    def append(self, value):
+        new_node = DoubleNode(value)
+        if not self.head:
+            self.head = new_node
+            return
+        last = self.head
+        while last.next:
+            last = last.next
+        last.next = new_node
+        new_node.prev = last  # O ponteiro para o anterior é ajustado
+
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.value, end=" <-> ")
+            current = current.next
+        print("None")
+
+    def print_reverse(self):
+        current = self.head
+        while current and current.next:
+            current = current.next  # Vai para o último nó
+        while current:
+            print(current.value, end=" <-> ")
+            current = current.prev
+        print("None")
+
+# Testando a lista encadeada dupla
+dll = DoublyLinkedList()
+dll.append(10)
+dll.append(20)
+dll.append(30)
+dll.append(40)
+
+dll.print_list()  # Saída: 10 <-> 20 <-> 30 <-> 40 <-> None
+dll.print_reverse()  # Saída: 40 <-> 30 <-> 20 <-> 10 <-> None
+Explicação:
+Classe DoubleNode: Representa um nó de lista encadeada dupla, com ponteiros tanto para o próximo nó (next) quanto para o nó anterior (prev).
+Classe DoublyLinkedList: Representa a lista encadeada dupla, oferecendo métodos para adicionar elementos (append), imprimir a lista em ordem direta (print_list) e em ordem reversa (print_reverse).
+
+3. Lista Encadeada Circular
+Uma lista encadeada circular é uma lista onde o último nó aponta de volta para o primeiro nó, formando um ciclo.
+
+Exemplo de Lista Encadeada Circular:
+class CircularNode:
+    def __init__(self, value):
+        self.value = value  # valor do nó
+        self.next = None    # ponteiro para o próximo nó
+
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None  # cabeça da lista (inicialmente vazia)
+
+    def append(self, value):
+        new_node = CircularNode(value)
+        if not self.head:
+            self.head = new_node
+            new_node.next = self.head  # O próximo nó aponta para a cabeça, formando um ciclo
+            return
+        last = self.head
+        while last.next != self.head:  # Encontra o último nó
+            last = last.next
+        last.next = new_node
+        new_node.next = self.head  # O próximo do novo nó é a cabeça, formando o ciclo
+
+    def print_list(self):
+        if not self.head:
+            print("Lista vazia")
+            return
+        current = self.head
+        while True:
+            print(current.value, end=" -> ")
+            current = current.next
+            if current == self.head:  # Retorna à cabeça, indicando o ciclo
+                break
+        print("... (ciclo)")
+
+# Testando a lista encadeada circular
+cll = CircularLinkedList()
+cll.append(10)
+cll.append(20)
+cll.append(30)
+cll.append(40)
+
+cll.print_list()  # Saída: 10 -> 20 -> 30 -> 40 -> ... (ciclo)
+Explicação:
+Classe CircularNode: Representa um nó da lista encadeada circular, com um valor e um ponteiro para o próximo nó.
+Classe CircularLinkedList: Representa a lista encadeada circular. O método append garante que o último nó aponte para a cabeça, formando um ciclo.
